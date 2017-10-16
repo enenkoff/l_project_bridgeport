@@ -1,0 +1,82 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  box-sizing: border-box;
+  padding: 20px 20px 0;
+  .flex {
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .logo {
+    a {
+      display: block;
+      width: 50px;
+      height: 50px;
+      transition: color 0.3s;
+      color: $link;
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+  .elements {
+    display: flex;
+    align-items: center;
+    span {
+      display: block;
+      cursor: pointer;
+      color: $link;
+      transition: color 0.3s;
+      &:hover {
+        color: $white;
+      }
+    }
+    ul {
+      padding-right: 18px;
+      margin-right: 20px;
+      border-right: 1px solid $link;
+      display: flex;
+      align-items: center;
+      li {
+        margin-left: 15px;
+        .ico_fullpage {  width: 21px;  height: 15px;  }
+        .ico_volume {  width: 19px;  height: 15px;  }
+        .ico_info {  width: 15px;  height: 15px;  }
+      }
+    }
+    .burger {
+      width: 25px;
+      height: 20px;
+      position: relative;
+      span {
+        position: absolute;
+        height: 3px;
+        left: 0;
+        right: 0;
+        top: 50%;
+        transform: translate(0,-50%);
+        background-color: $link;
+        &:before,
+        &:after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background-color: $link;
+        }
+        &:before {
+          top: 100%;
+          margin-top: 5px;
+        }
+        &:after {
+          bottom: 100%;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+}
