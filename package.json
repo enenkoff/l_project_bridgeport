@@ -1,5 +1,5 @@
 {
-  "name": "Spryker-compiler",
+  "name": "Brigeport-compiler",
   "version": "1.0.0",
   "description": "compiling and optimizing markup",
   "main": "gulpfile.js",
@@ -9,6 +9,7 @@
   "author": "enenkoff",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer": "^7.1.5",
     "browser-sync": "^2.18.12",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
@@ -16,10 +17,15 @@
     "gulp-html-tag-include": "^1.0.1",
     "gulp-imagemin": "^3.3.0",
     "gulp-notify": "^3.0.0",
+    "gulp-postcss": "^7.0.0",
     "gulp-rigger": "^0.5.8",
     "gulp-sass": "^3.1.0",
     "gulp-svgstore": "^6.1.0",
     "gulp-uglify": "^3.0.0",
     "gulp-uglifyjs": "^0.6.2"
+  },
+  "dependencies": {
+    "postcss-browser-reporter": "^0.5.0",
+    "stylelint": "^8.2.0"
   }
 }

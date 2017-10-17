@@ -31,7 +31,9 @@
       color: $link;
       transition: color 0.3s;
       &:hover {
-        color: $white;
+           color: $white;
+
+
       }
     }
     ul {

@@ -45,9 +45,7 @@ $btn_green_hover: #1aa288;
 @mixin fonts($name,$file){
   @font-face {
     font-family: $name;
-    src: url("../fonts/" + $file + ".ttf"),
-    url("../fonts/" + $file + ".woff"),
-    url("../fonts/" + $file + ".eot");
+    src: url("../fonts/" + $file + ".ttf"), url("../fonts/" + $file + ".woff"), url("../fonts/" + $file + ".eot");
   }
 }
 @mixin media($media,$w) {

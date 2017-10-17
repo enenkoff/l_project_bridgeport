@@ -11,6 +11,12 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     browserSync = require('browser-sync');
 
+var postcss = require('gulp-postcss'),
+    autoprefix = require('autoprefixer'),
+    stylelint = require('stylelint'),
+    stylefmt = require('stylefmt'),
+    config = require('./stylelint.config'),
+    messages = require('postcss-browser-reporter');
 
 /* create svg sprite */
 
@@ -77,21 +83,36 @@ gulp.task('browser-sync',function () {
 
 gulp.task( 'sass', function() {
     gulp.src('src/sass/**/*.+(sass|scss)')
+        .pipe(
+            postcss([
+                autoprefix({
+                    browsers:['>2%']
+                })
+            ])
+        )
         .pipe( sass().on( 'error', notify.onError(
             {
                 message: "<%= error.message %>",
                 title  : "Sass ошибка!"
             } ) )
         )
+
         .pipe( gulp.dest( 'src/css' ) )
         .pipe( notify( 'Готово!' ) )
     // .pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('optimize:css', ['sass'], function () {
+gulp.task('optimize:css', ['sass', 'browser-sync'], function () {
     setTimeout(function () {
         gulp.src('src/css/styles.css')
-            .pipe(autoprefixer())
+            // .pipe(autoprefixer())
+            .pipe(
+                postcss([
+                    stylelint(config),
+                    stylefmt(config)
+                    // messages()
+                ])
+            )
             .pipe(gulp.dest('dev/assets/css'))
             .pipe(cssmin())
             .pipe(rename({suffix: '.min'}))
