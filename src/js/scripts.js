@@ -66,6 +66,16 @@ $(document).ready(function () {
     }
 
 
+    // burger
+
+    var $burger = $('#burger'),
+        $nav = $('#nav');
+    $burger.click(function () {
+        $burger.toggleClass('active');
+        $nav.toggleClass('active');
+    });
+
+
 
 /* --------------------------------- document load --------------------------------- */
 
