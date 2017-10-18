@@ -1,3 +1,14 @@
+/*============== abstracts ==============*/
+svg, #wrapper, #main, .container {
+  width: 100%;
+  height: 100%;
+  display: block; }
+
+.btn span, .btn i {
+  display: inline-block;
+  vertical-align: middle; }
+
+/*============== base ==============*/
 html, body {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%; }
@@ -197,17 +208,21 @@ textarea {
   -webkit-appearance: button;
   font: inherit; }
 
-/*---libs---*/
-/*@import "../css/libs/owl.carousel.min";*/
-/*---styles---*/
-svg, #wrapper, #main, .container {
-  width: 100%;
-  height: 100%;
-  display: block; }
+@font-face {
+  font-family: gibson-lt;
+  src: url("../fonts/Gibson-Light.ttf"), url("../fonts/Gibson-Light.woff"), url("../fonts/Gibson-Light.eot"); }
 
-.btn span, .btn i {
-  display: inline-block;
-  vertical-align: middle; }
+@font-face {
+  font-family: gibson-reg;
+  src: url("../fonts/Gibson-Regular.ttf"), url("../fonts/Gibson-Regular.woff"), url("../fonts/Gibson-Regular.eot"); }
+
+@font-face {
+  font-family: mostra-lt;
+  src: url("../fonts/MostraTwoLight.ttf"), url("../fonts/MostraTwoLight.woff"), url("../fonts/MostraTwoLight.eot"); }
+
+@font-face {
+  font-family: mostra-reg;
+  src: url("../fonts/MostraTwo.ttf"), url("../fonts/MostraTwo.woff"), url("../fonts/MostraTwo.eot"); }
 
 .layout:after {
   content: "";
@@ -229,22 +244,93 @@ svg, #wrapper, #main, .container {
       vertical-align: middle;
       height: 100%; }
 
-@font-face {
-  font-family: gibson-lt;
-  src: url("../fonts/Gibson-Light.ttf"), url("../fonts/Gibson-Light.woff"), url("../fonts/Gibson-Light.eot"); }
+.content {
+  margin: 0 auto;
+  box-sizing: border-box; }
 
-@font-face {
-  font-family: gibson-reg;
-  src: url("../fonts/Gibson-Regular.ttf"), url("../fonts/Gibson-Regular.woff"), url("../fonts/Gibson-Regular.eot"); }
+.btn {
+  box-sizing: border-box;
+  color: #fff;
+  border-radius: 0;
+  text-align: center;
+  border: none;
+  display: inline-block; }
 
-@font-face {
-  font-family: mostra-lt;
-  src: url("../fonts/MostraTwoLight.ttf"), url("../fonts/MostraTwoLight.woff"), url("../fonts/MostraTwoLight.eot"); }
+.flex {
+  display: flex; }
+  .flex_reverse {
+    flex-direction: row-reverse; }
 
-@font-face {
-  font-family: mostra-reg;
-  src: url("../fonts/MostraTwo.ttf"), url("../fonts/MostraTwo.woff"), url("../fonts/MostraTwo.eot"); }
+.custom-block {
+  box-sizing: border-box; }
 
+/*============== components ==============*/
+.burger {
+  width: 25px;
+  height: 20px;
+  position: fixed;
+  z-index: 55;
+  top: 16px;
+  right: 20px;
+  cursor: pointer; }
+  .burger span {
+    position: absolute;
+    height: 3px;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transition: background-color 0.3s; }
+    .burger span:before, .burger span:after {
+      content: "";
+      position: absolute;
+      transform-origin: center center;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: #bf9652; }
+  .burger:not(.active) span {
+    background-color: #bf9652; }
+    .burger:not(.active) span:before, .burger:not(.active) span:after {
+      transition: margin 0.3s ease 0.3s, transform 0.3s, background-color 0.3s; }
+    .burger:not(.active) span:before {
+      margin-top: 8px; }
+    .burger:not(.active) span:after {
+      margin-top: -8px; }
+  .burger:not(.active):hover span {
+    background-color: #fff; }
+    .burger:not(.active):hover span:before, .burger:not(.active):hover span:after {
+      background-color: #fff; }
+  .burger.active span {
+    background-color: transparent; }
+    .burger.active span:before, .burger.active span:after {
+      margin-top: 0;
+      transition: margin 0.3s, transform 0.3s ease 0.3s, background-color 0.3s; }
+    .burger.active span:before {
+      transform: rotate(45deg); }
+    .burger.active span:after {
+      transform: rotate(-45deg); }
+  .burger.active:hover span:before, .burger.active:hover span:after {
+    background-color: #fff; }
+
+/* -------------------------------- bubbles -------------------------------- */
+.bubbles span {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #bf9652;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0); }
+  .bubbles span.moment {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 2.5s ease 0s, opacity 0.3s linear 0s; }
+  .bubbles span.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 3.5s ease 0s, opacity 0.3s linear 0s; }
+
+/*============== layout ==============*/
 html, body {
   width: 100%;
   height: 100%; }
@@ -273,26 +359,6 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
   font-family: 'mostra-lt'; }
 
-.content {
-  margin: 0 auto;
-  box-sizing: border-box; }
-
-.btn {
-  box-sizing: border-box;
-  color: #fff;
-  border-radius: 0;
-  text-align: center;
-  border: none;
-  display: inline-block; }
-
-.flex {
-  display: flex; }
-  .flex_reverse {
-    flex-direction: row-reverse; }
-
-.custom-block {
-  box-sizing: border-box; }
-
 #wrapper, #main {
   position: relative;
   overflow: hidden; }
@@ -300,6 +366,53 @@ h1, h2, h3, h4, h5, h6 {
 .container {
   position: relative;
   z-index: 1; }
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  box-sizing: border-box;
+  padding: 20px 20px 0; }
+  .header .flex {
+    justify-content: space-between;
+    align-items: flex-start; }
+  .header .logo a {
+    display: block;
+    width: 50px;
+    height: 50px;
+    transition: color 0.3s;
+    color: #bf9652; }
+    .header .logo a:hover {
+      color: #fff; }
+  .header .elements {
+    display: flex;
+    align-items: center; }
+    .header .elements span {
+      display: block;
+      cursor: pointer;
+      color: #bf9652;
+      transition: color 0.3s; }
+      .header .elements span:hover {
+        color: #fff; }
+    .header .elements ul {
+      padding-right: 18px;
+      margin-right: 45px;
+      border-right: 1px solid #bf9652;
+      display: flex;
+      align-items: center; }
+      .header .elements ul li {
+        margin-left: 15px; }
+        .header .elements ul li .ico_fullpage {
+          width: 21px;
+          height: 15px; }
+        .header .elements ul li .ico_volume {
+          width: 19px;
+          height: 15px; }
+        .header .elements ul li .ico_info {
+          width: 15px;
+          height: 15px; }
 
 .bottom-menu {
   position: absolute;
@@ -403,53 +516,6 @@ h1, h2, h3, h4, h5, h6 {
     .bottom-menu:hover .bottom-menu__nav section:nth-child(4) {
       transition: transform 0.6s ease-in-out 0.6s; }
 
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  box-sizing: border-box;
-  padding: 20px 20px 0; }
-  .header .flex {
-    justify-content: space-between;
-    align-items: flex-start; }
-  .header .logo a {
-    display: block;
-    width: 50px;
-    height: 50px;
-    transition: color 0.3s;
-    color: #bf9652; }
-    .header .logo a:hover {
-      color: #fff; }
-  .header .elements {
-    display: flex;
-    align-items: center; }
-    .header .elements span {
-      display: block;
-      cursor: pointer;
-      color: #bf9652;
-      transition: color 0.3s; }
-      .header .elements span:hover {
-        color: #fff; }
-    .header .elements ul {
-      padding-right: 18px;
-      margin-right: 45px;
-      border-right: 1px solid #bf9652;
-      display: flex;
-      align-items: center; }
-      .header .elements ul li {
-        margin-left: 15px; }
-        .header .elements ul li .ico_fullpage {
-          width: 21px;
-          height: 15px; }
-        .header .elements ul li .ico_volume {
-          width: 19px;
-          height: 15px; }
-        .header .elements ul li .ico_info {
-          width: 15px;
-          height: 15px; }
-
 .nav {
   position: fixed;
   opacity: 0;
@@ -481,53 +547,7 @@ h1, h2, h3, h4, h5, h6 {
     .nav a:hover {
       color: #fff; }
 
-.burger {
-  width: 25px;
-  height: 20px;
-  position: fixed;
-  z-index: 55;
-  top: 16px;
-  right: 20px;
-  cursor: pointer; }
-  .burger span {
-    position: absolute;
-    height: 3px;
-    left: 0;
-    right: 0;
-    top: 50%;
-    transition: background-color 0.3s; }
-    .burger span:before, .burger span:after {
-      content: "";
-      position: absolute;
-      transform-origin: center center;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background-color: #bf9652; }
-  .burger:not(.active) span {
-    background-color: #bf9652; }
-    .burger:not(.active) span:before, .burger:not(.active) span:after {
-      transition: margin 0.3s ease 0.3s, transform 0.3s, background-color 0.3s; }
-    .burger:not(.active) span:before {
-      margin-top: 8px; }
-    .burger:not(.active) span:after {
-      margin-top: -8px; }
-  .burger:not(.active):hover span {
-    background-color: #fff; }
-    .burger:not(.active):hover span:before, .burger:not(.active):hover span:after {
-      background-color: #fff; }
-  .burger.active span {
-    background-color: transparent; }
-    .burger.active span:before, .burger.active span:after {
-      margin-top: 0;
-      transition: margin 0.3s, transform 0.3s ease 0.3s, background-color 0.3s; }
-    .burger.active span:before {
-      transform: rotate(45deg); }
-    .burger.active span:after {
-      transform: rotate(-45deg); }
-  .burger.active:hover span:before, .burger.active:hover span:after {
-    background-color: #fff; }
-
+/*============== page ==============*/
 .home {
   background: transparent url("../images/backgrounds/home_bg.png") center center/cover no-repeat; }
   .home:before {
@@ -539,20 +559,5 @@ h1, h2, h3, h4, h5, h6 {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); }
 
-/* -------------------------------- bubbles -------------------------------- */
-.bubbles span {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid #bf9652;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0); }
-  .bubbles span.moment {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-    transition: transform 2.5s ease 0s, opacity 0.3s linear 0s; }
-  .bubbles span.active {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-    transition: transform 3.5s ease 0s, opacity 0.3s linear 0s; }
+/*============== libs ==============*/
+/*@import "../css/libs/owl.carousel.min";*/

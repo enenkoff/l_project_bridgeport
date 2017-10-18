@@ -1,10 +1,25 @@
-@import "normalize";
-/*---libs---*/
+/*============== abstracts ==============*/
+@import "abstracts/variables";
+@import "abstracts/mixins";
+@import "abstracts/extends";
+
+/*============== base ==============*/
+@import "base/normalize";
+@import "base/typography";
+@import "base/classes";
+
+/*============== components ==============*/
+@import "components/burger";
+@import "components/bubbles";
+
+/*============== layout ==============*/
+@import "layout/main";
+@import "layout/header";
+@import "layout/bottom";
+@import "layout/nav";
+
+/*============== page ==============*/
+@import "pages/home";
+
+/*============== libs ==============*/
 /*@import "../css/libs/owl.carousel.min";*/
-/*---styles---*/
-@import "general";
-@import "main";
-@import "header";
-@import "nav";
-@import "home";
-@import "elements";

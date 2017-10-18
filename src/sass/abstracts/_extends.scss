@@ -1,0 +1,16 @@
+%fullBlock {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+%valign {
+  display: inline-block;
+  vertical-align: middle;
+}
+%hover_underline {
+  &:hover {
+    @include media(hover,960){
+      text-decoration: underline;
+    }
+  }
+}
