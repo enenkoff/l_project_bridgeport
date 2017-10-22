@@ -1,3 +1,20 @@
+/*============== abstracts ==============*/
+svg,
+#wrapper,
+#main,
+.container {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.btn span,
+.btn i {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/*============== base ==============*/
 html,
 body {
   -ms-text-size-adjust: 100%;
@@ -67,6 +84,7 @@ a:hover {
 abbr[title] {
   border-bottom: none;
   text-decoration: underline;
+  -webkit-text-decoration: underline dotted;
   text-decoration: underline dotted;
 }
 
@@ -255,22 +273,24 @@ textarea {
   font: inherit;
 }
 
-/*---libs---*/
-/*@import "../css/libs/owl.carousel.min";*/
-/*---styles---*/
-svg,
-#wrapper,
-#main,
-.container {
-  width: 100%;
-  height: 100%;
-  display: block;
+@font-face {
+  font-family: gibson-lt;
+  src: url("../fonts/Gibson-Light.ttf"), url("../fonts/Gibson-Light.woff"), url("../fonts/Gibson-Light.eot");
 }
 
-.btn span,
-.btn i {
-  display: inline-block;
-  vertical-align: middle;
+@font-face {
+  font-family: gibson-reg;
+  src: url("../fonts/Gibson-Regular.ttf"), url("../fonts/Gibson-Regular.woff"), url("../fonts/Gibson-Regular.eot");
+}
+
+@font-face {
+  font-family: mostra-lt;
+  src: url("../fonts/MostraTwoLight.ttf"), url("../fonts/MostraTwoLight.woff"), url("../fonts/MostraTwoLight.eot");
+}
+
+@font-face {
+  font-family: mostra-reg;
+  src: url("../fonts/MostraTwo.ttf"), url("../fonts/MostraTwo.woff"), url("../fonts/MostraTwo.eot");
 }
 
 .layout:after {
@@ -299,26 +319,153 @@ svg,
   height: 100%;
 }
 
-@font-face {
-  font-family: gibson-lt;
-  src: url("../fonts/Gibson-Light.ttf"), url("../fonts/Gibson-Light.woff"), url("../fonts/Gibson-Light.eot");
+.content {
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-@font-face {
-  font-family: gibson-reg;
-  src: url("../fonts/Gibson-Regular.ttf"), url("../fonts/Gibson-Regular.woff"), url("../fonts/Gibson-Regular.eot");
+.btn {
+  box-sizing: border-box;
+  color: #fff;
+  border-radius: 0;
+  text-align: center;
+  border: none;
+  display: inline-block;
 }
 
-@font-face {
-  font-family: mostra-lt;
-  src: url("../fonts/MostraTwoLight.ttf"), url("../fonts/MostraTwoLight.woff"), url("../fonts/MostraTwoLight.eot");
+.flex {
+  display: -webkit-box;
+  display: flex;
 }
 
-@font-face {
-  font-family: mostra-reg;
-  src: url("../fonts/MostraTwo.ttf"), url("../fonts/MostraTwo.woff"), url("../fonts/MostraTwo.eot");
+.flex_reverse {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  flex-direction: row-reverse;
 }
 
+.custom-block {
+  box-sizing: border-box;
+}
+
+/*============== components ==============*/
+.burger {
+  width: 25px;
+  height: 20px;
+  position: fixed;
+  z-index: 55;
+  top: 16px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.burger span {
+  position: absolute;
+  height: 3px;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transition: background-color 0.3s;
+}
+
+.burger span:before,
+.burger span:after {
+  content: "";
+  position: absolute;
+  -webkit-transform-origin: center center;
+  transform-origin: center center;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #bf9652;
+}
+
+.burger:not(.active) span {
+  background-color: #bf9652;
+}
+
+.burger:not(.active) span:before,
+.burger:not(.active) span:after {
+  transition: margin 0.3s ease 0.3s, background-color 0.3s, -webkit-transform 0.3s;
+  transition: margin 0.3s ease 0.3s, transform 0.3s, background-color 0.3s;
+  transition: margin 0.3s ease 0.3s, transform 0.3s, background-color 0.3s, -webkit-transform 0.3s;
+}
+
+.burger:not(.active) span:before {
+  margin-top: 8px;
+}
+
+.burger:not(.active) span:after {
+  margin-top: -8px;
+}
+
+.burger:not(.active):hover span {
+  background-color: #fff;
+}
+
+.burger:not(.active):hover span:before,
+.burger:not(.active):hover span:after {
+  background-color: #fff;
+}
+
+.burger.active span {
+  background-color: transparent;
+}
+
+.burger.active span:before,
+.burger.active span:after {
+  margin-top: 0;
+  transition: margin 0.3s, background-color 0.3s, -webkit-transform 0.3s ease 0.3s;
+  transition: margin 0.3s, transform 0.3s ease 0.3s, background-color 0.3s;
+  transition: margin 0.3s, transform 0.3s ease 0.3s, background-color 0.3s, -webkit-transform 0.3s ease 0.3s;
+}
+
+.burger.active span:before {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.burger.active span:after {
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+.burger.active:hover span:before,
+.burger.active:hover span:after {
+  background-color: #fff;
+}
+
+/* -------------------------------- bubbles -------------------------------- */
+.bubbles span {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #bf9652;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  -webkit-transform: translate(-50%, -50%) scale(0);
+  transform: translate(-50%, -50%) scale(0);
+}
+
+.bubbles span.moment {
+  opacity: 1;
+  -webkit-transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
+  transition: opacity 0.3s linear 0s, -webkit-transform 2.5s ease 0s;
+  transition: transform 2.5s ease 0s, opacity 0.3s linear 0s;
+  transition: transform 2.5s ease 0s, opacity 0.3s linear 0s, -webkit-transform 2.5s ease 0s;
+}
+
+.bubbles span.active {
+  opacity: 1;
+  -webkit-transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
+  transition: opacity 0.3s linear 0s, -webkit-transform 3.5s ease 0s;
+  transition: transform 3.5s ease 0s, opacity 0.3s linear 0s;
+  transition: transform 3.5s ease 0s, opacity 0.3s linear 0s, -webkit-transform 3.5s ease 0s;
+}
+
+/*============== layout ==============*/
 html,
 body {
   width: 100%;
@@ -365,32 +512,6 @@ h6 {
   font-family: 'mostra-lt';
 }
 
-.content {
-  margin: 0 auto;
-  box-sizing: border-box;
-}
-
-.btn {
-  box-sizing: border-box;
-  color: #fff;
-  border-radius: 0;
-  text-align: center;
-  border: none;
-  display: inline-block;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex_reverse {
-  flex-direction: row-reverse;
-}
-
-.custom-block {
-  box-sizing: border-box;
-}
-
 #wrapper,
 #main {
   position: relative;
@@ -400,6 +521,82 @@ h6 {
 .container {
   position: relative;
   z-index: 1;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  box-sizing: border-box;
+  padding: 20px 20px 0;
+}
+
+.header .flex {
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: start;
+  align-items: flex-start;
+}
+
+.header .logo a {
+  display: block;
+  width: 50px;
+  height: 50px;
+  transition: color 0.3s;
+  color: #bf9652;
+}
+
+.header .logo a:hover {
+  color: #fff;
+}
+
+.header .elements {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.header .elements span {
+  display: block;
+  cursor: pointer;
+  color: #bf9652;
+  transition: color 0.3s;
+}
+
+.header .elements span:hover {
+  color: #fff;
+}
+
+.header .elements ul {
+  padding-right: 18px;
+  margin-right: 45px;
+  border-right: 1px solid #bf9652;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.header .elements ul li {
+  margin-left: 15px;
+}
+
+.header .elements ul li .ico_fullpage {
+  width: 21px;
+  height: 15px;
+}
+
+.header .elements ul li .ico_volume {
+  width: 19px;
+  height: 15px;
+}
+
+.header .elements ul li .ico_info {
+  width: 15px;
+  height: 15px;
 }
 
 .bottom-menu {
@@ -421,10 +618,13 @@ h6 {
 }
 
 .bottom-menu__dots ul {
+  display: -webkit-box;
   display: flex;
   width: 100%;
   height: 100%;
+  -webkit-box-align: center;
   align-items: center;
+  -webkit-box-pack: center;
   justify-content: center;
 }
 
@@ -456,24 +656,33 @@ h6 {
   height: 100%;
   text-align: center;
   text-transform: uppercase;
+  -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
 .bottom-menu__nav section:nth-child(1) {
+  transition: -webkit-transform 0.5s ease-in-out 0s;
   transition: transform 0.5s ease-in-out 0s;
+  transition: transform 0.5s ease-in-out 0s, -webkit-transform 0.5s ease-in-out 0s;
 }
 
 .bottom-menu__nav section:nth-child(2) {
+  transition: -webkit-transform 0.5s ease-in-out 0.1s;
   transition: transform 0.5s ease-in-out 0.1s;
+  transition: transform 0.5s ease-in-out 0.1s, -webkit-transform 0.5s ease-in-out 0.1s;
 }
 
 .bottom-menu__nav section:nth-child(3) {
+  transition: -webkit-transform 0.5s ease-in-out 0.2s;
   transition: transform 0.5s ease-in-out 0.2s;
+  transition: transform 0.5s ease-in-out 0.2s, -webkit-transform 0.5s ease-in-out 0.2s;
 }
 
 .bottom-menu__nav section:nth-child(4) {
+  transition: -webkit-transform 0.5s ease-in-out 0.3s;
   transition: transform 0.5s ease-in-out 0.3s;
+  transition: transform 0.5s ease-in-out 0.3s, -webkit-transform 0.5s ease-in-out 0.3s;
 }
 
 .bottom-menu__nav .bubbles {
@@ -525,98 +734,39 @@ h6 {
 }
 
 .bottom-menu__nav .flex {
+  -webkit-box-align: center;
   align-items: center;
+  -webkit-box-pack: center;
   justify-content: center;
 }
 
 .bottom-menu:hover .bottom-menu__nav section {
+  -webkit-transform: translate3d(0, -100%, 0);
   transform: translate3d(0, -100%, 0);
 }
 
 .bottom-menu:hover .bottom-menu__nav section:nth-child(1) {
+  transition: -webkit-transform 0.6s ease-in-out 0s;
   transition: transform 0.6s ease-in-out 0s;
+  transition: transform 0.6s ease-in-out 0s, -webkit-transform 0.6s ease-in-out 0s;
 }
 
 .bottom-menu:hover .bottom-menu__nav section:nth-child(2) {
+  transition: -webkit-transform 0.6s ease-in-out 0.2s;
   transition: transform 0.6s ease-in-out 0.2s;
+  transition: transform 0.6s ease-in-out 0.2s, -webkit-transform 0.6s ease-in-out 0.2s;
 }
 
 .bottom-menu:hover .bottom-menu__nav section:nth-child(3) {
+  transition: -webkit-transform 0.6s ease-in-out 0.4s;
   transition: transform 0.6s ease-in-out 0.4s;
+  transition: transform 0.6s ease-in-out 0.4s, -webkit-transform 0.6s ease-in-out 0.4s;
 }
 
 .bottom-menu:hover .bottom-menu__nav section:nth-child(4) {
+  transition: -webkit-transform 0.6s ease-in-out 0.6s;
   transition: transform 0.6s ease-in-out 0.6s;
-}
-
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  box-sizing: border-box;
-  padding: 20px 20px 0;
-}
-
-.header .flex {
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.header .logo a {
-  display: block;
-  width: 50px;
-  height: 50px;
-  transition: color 0.3s;
-  color: #bf9652;
-}
-
-.header .logo a:hover {
-  color: #fff;
-}
-
-.header .elements {
-  display: flex;
-  align-items: center;
-}
-
-.header .elements span {
-  display: block;
-  cursor: pointer;
-  color: #bf9652;
-  transition: color 0.3s;
-}
-
-.header .elements span:hover {
-  color: #fff;
-}
-
-.header .elements ul {
-  padding-right: 18px;
-  margin-right: 45px;
-  border-right: 1px solid #bf9652;
-  display: flex;
-  align-items: center;
-}
-
-.header .elements ul li {
-  margin-left: 15px;
-}
-
-.header .elements ul li .ico_fullpage {
-  width: 21px;
-  height: 15px;
-}
-
-.header .elements ul li .ico_volume {
-  width: 19px;
-  height: 15px;
-}
-
-.header .elements ul li .ico_info {
-  width: 15px;
-  height: 15px;
+  transition: transform 0.6s ease-in-out 0.6s, -webkit-transform 0.6s ease-in-out 0.6s;
 }
 
 .nav {
@@ -645,6 +795,7 @@ h6 {
   left: 0;
   right: 0;
   top: 50%;
+  -webkit-transform: translate(0, -50%);
   transform: translate(0, -50%);
 }
 
@@ -652,6 +803,9 @@ h6 {
   color: #bf9652;
   font-size: 4vh;
   transition: color 0.4s;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 }
 
@@ -659,85 +813,7 @@ h6 {
   color: #fff;
 }
 
-.burger {
-  width: 25px;
-  height: 20px;
-  position: fixed;
-  z-index: 55;
-  top: 16px;
-  right: 20px;
-  cursor: pointer;
-}
-
-.burger span {
-  position: absolute;
-  height: 3px;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transition: background-color 0.3s;
-}
-
-.burger span:before,
-.burger span:after {
-  content: "";
-  position: absolute;
-  transform-origin: center center;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background-color: #bf9652;
-}
-
-.burger:not(.active) span {
-  background-color: #bf9652;
-}
-
-.burger:not(.active) span:before,
-.burger:not(.active) span:after {
-  transition: margin 0.3s ease 0.3s, transform 0.3s, background-color 0.3s;
-}
-
-.burger:not(.active) span:before {
-  margin-top: 8px;
-}
-
-.burger:not(.active) span:after {
-  margin-top: -8px;
-}
-
-.burger:not(.active):hover span {
-  background-color: #fff;
-}
-
-.burger:not(.active):hover span:before,
-.burger:not(.active):hover span:after {
-  background-color: #fff;
-}
-
-.burger.active span {
-  background-color: transparent;
-}
-
-.burger.active span:before,
-.burger.active span:after {
-  margin-top: 0;
-  transition: margin 0.3s, transform 0.3s ease 0.3s, background-color 0.3s;
-}
-
-.burger.active span:before {
-  transform: rotate(45deg);
-}
-
-.burger.active span:after {
-  transform: rotate(-45deg);
-}
-
-.burger.active:hover span:before,
-.burger.active:hover span:after {
-  background-color: #fff;
-}
-
+/*============== page ==============*/
 .home {
   background: transparent url("../images/backgrounds/home_bg.png") center center/cover no-repeat;
 }
@@ -752,25 +828,5 @@ h6 {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* -------------------------------- bubbles -------------------------------- */
-.bubbles span {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid #bf9652;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0);
-}
-
-.bubbles span.moment {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  transition: transform 2.5s ease 0s, opacity 0.3s linear 0s;
-}
-
-.bubbles span.active {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  transition: transform 3.5s ease 0s, opacity 0.3s linear 0s;
-}
+/*============== libs ==============*/
+/*@import "../css/libs/owl.carousel.min";*/

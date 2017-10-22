@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
     notify = require('gulp-notify'),
+    svgmin = require('gulp-svgmin'),
     svgstore = require('gulp-svgstore'),
     imagemin = require('gulp-imagemin'),
     include = require('gulp-html-tag-include'),
@@ -16,7 +17,8 @@ var postcss = require('gulp-postcss'),
     stylelint = require('stylelint'),
     stylefmt = require('stylefmt'),
     config = require('./stylelint.config'),
-    messages = require('postcss-browser-reporter');
+    messages = require('postcss-browser-reporter'),
+    newer = require('gulp-newer');
 
 /* create svg sprite */
 
@@ -36,6 +38,24 @@ gulp.task('imagemin', function () {
             optimizationLevel: 5
         }))
         .pipe(gulp.dest('dev/assets/images'))
+});
+
+/* all optimize */
+
+gulp.task('optimize:all', function () {
+    gulp.src('src/images/**/*.+(jpg|jpeg|png)')
+        .pipe(newer('dev/assets/images'))
+        .pipe(imagemin({
+            interlaced: true,
+            progressive: true,
+            optimizationLevel: 5
+        }))
+        .pipe(gulp.dest('dev/assets/images'));
+
+    gulp.src('src/svg/**/*.svg')
+        .pipe(newer('dev/assets/svg'))
+        .pipe(svgmin())
+        .pipe(gulp.dest('dev/assets/svg'));
 });
 
 /* builders */
@@ -81,46 +101,65 @@ gulp.task('browser-sync',function () {
 
 /* compile sass with notify errors */
 
-gulp.task( 'sass', function() {
-    gulp.src('src/sass/**/*.+(sass|scss)')
-        .pipe(
-            postcss([
-                autoprefix({
-                    browsers:['>2%']
-                })
-            ])
-        )
-        .pipe( sass().on( 'error', notify.onError(
-            {
-                message: "<%= error.message %>",
-                title  : "Sass ошибка!"
-            } ) )
-        )
+    gulp.task( 'sass', function() {
 
-        .pipe( gulp.dest( 'src/css' ) )
-        .pipe( notify( 'Готово!' ) )
-    // .pipe(browserSync.reload({stream: true}));
-});
+        gulp.src('src/sass/**/*.+(sass|scss)')
+            .pipe( sass({
+                    outputStyle:'expanded'
+                }).on( 'error', notify.onError(
+                {
+                    message: "<%= error.message %>",
+                    title  : "Sass ошибка!"
+                } ) )
+            )
+            .pipe( gulp.dest( 'src/css' ) )
+            .pipe( notify( 'Готово!' ) )
 
-gulp.task('optimize:css', ['sass', 'browser-sync'], function () {
-    setTimeout(function () {
+
         gulp.src('src/css/styles.css')
-            // .pipe(autoprefixer())
             .pipe(
                 postcss([
-                    stylelint(config),
-                    stylefmt(config)
+                    autoprefix({
+                        browsers:['>2%']
+                    }),
+                    stylefmt(config),
+                    stylelint(config)
+                    // stylefmt(config)
                     // messages()
                 ])
             )
             .pipe(gulp.dest('dev/assets/css'))
             .pipe(cssmin())
             .pipe(rename({suffix: '.min'}))
-            .pipe(gulp.dest('dev/assets/css'))
-            .pipe(browserSync.reload({stream: true}));
-    },1000)
+            .pipe(gulp.dest('dev/assets/css'));
+    });
 
-});
+    gulp.task('optimize:css', ['sass', 'browser-sync'], function () {
+        setTimeout(function () {
+            gulp.src('src/css/styles.css')
+                // .pipe(autoprefixer())
+                .pipe(
+                    postcss([
+                        autoprefix({
+                            browsers:['>2%']
+                        })
+                    ])
+                )
+                .pipe(
+                    postcss([
+                        // stylelint(config),
+                        // stylefmt(config)
+                        // messages()
+                    ])
+                )
+                .pipe(gulp.dest('dev/assets/css'))
+                .pipe(cssmin())
+                .pipe(rename({suffix: '.min'}))
+                .pipe(gulp.dest('dev/assets/css'))
+                .pipe(browserSync.reload({stream: true}));
+        },1000)
+
+    });
 
 
 /* watch changes */
