@@ -18,7 +18,8 @@ var postcss = require('gulp-postcss'),
     configLint = require('./stylelint.config'),
     configFmt = require('./stylefmt.config'),
     messages = require('postcss-browser-reporter'),
-    newer = require('gulp-newer');
+    newer = require('gulp-newer'),
+    mqpacker = require('css-mqpacker');
 
 /* all graph optimize */
 
@@ -69,6 +70,7 @@ gulp.task('optimize:styles', function () {
             gulp.src('src/css/styles.css')
                 .pipe(
                     postcss([
+                        mqpacker(),
                         stylefmt(configFmt),
                         stylelint(configLint),
                         messages()

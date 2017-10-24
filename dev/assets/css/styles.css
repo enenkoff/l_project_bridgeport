@@ -960,3 +960,10 @@ h6 {
 
 /*============== libs ==============*/
 /*@import "../css/libs/owl.carousel.min";*/
+/*============== media-queries ==============*/
+
+@media screen and (min-width: 1024px) {
+  .burger {
+    display: block;
+  }
+}

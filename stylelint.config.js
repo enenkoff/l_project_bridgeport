@@ -1,6 +1,6 @@
 module.exports = {
     'rules': {
-        'indentation' : 2,
+        "indentation" : 2,
         "block-no-empty": true,
         "color-no-invalid-hex": true,
         "declaration-colon-space-after": "always",
