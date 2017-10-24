@@ -103,7 +103,7 @@ dfn {
 }
 
 mark {
-  background-color: #ff0;
+  background-color: #FF0;
   color: #000;
 }
 
@@ -326,7 +326,7 @@ textarea {
 
 .btn {
   box-sizing: border-box;
-  color: #fff;
+  color: #FFF;
   border-radius: 0;
   text-align: center;
   border: none;
@@ -377,11 +377,11 @@ textarea {
   left: 0;
   right: 0;
   height: 3px;
-  background-color: #bf9652;
+  background-color: #BF9652;
 }
 
 .burger:not(.active) span {
-  background-color: #bf9652;
+  background-color: #BF9652;
 }
 
 .burger:not(.active) span:before,
@@ -400,12 +400,12 @@ textarea {
 }
 
 .burger:not(.active):hover span {
-  background-color: #fff;
+  background-color: #FFF;
 }
 
 .burger:not(.active):hover span:before,
 .burger:not(.active):hover span:after {
-  background-color: #fff;
+  background-color: #FFF;
 }
 
 .burger.active span {
@@ -432,14 +432,14 @@ textarea {
 
 .burger.active:hover span:before,
 .burger.active:hover span:after {
-  background-color: #fff;
+  background-color: #FFF;
 }
 
 /* -------------------------------- bubbles -------------------------------- */
 .bubbles span {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid #bf9652;
+  border: 1px solid #BF9652;
   width: 0;
   height: 0;
   opacity: 0;
@@ -482,7 +482,7 @@ body {
   font-family: "mostra-reg", sans-serif;
   line-height: 1.5;
   background-color: #000;
-  color: #fff;
+  color: #FFF;
 }
 
 body > svg {
@@ -513,7 +513,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #fff;
+  color: #FFF;
   line-height: 1.2;
   font-family: "mostra-lt";
 }
@@ -551,11 +551,11 @@ h6 {
   width: 50px;
   height: 50px;
   transition: color 0.3s;
-  color: #bf9652;
+  color: #BF9652;
 }
 
 .header .logo a:hover {
-  color: #fff;
+  color: #FFF;
 }
 
 .header .elements {
@@ -568,18 +568,18 @@ h6 {
 .header .elements span {
   display: block;
   cursor: pointer;
-  color: #bf9652;
+  color: #BF9652;
   transition: color 0.3s;
 }
 
 .header .elements span:hover {
-  color: #fff;
+  color: #FFF;
 }
 
 .header .elements ul {
   padding-right: 18px;
   margin-right: 45px;
-  border-right: 1px solid #bf9652;
+  border-right: 1px solid #BF9652;
   display: -webkit-box;
   display: flex;
   -webkit-box-align: center;
@@ -643,7 +643,7 @@ h6 {
 }
 
 .bottom-menu__dots ul li:not(.active) {
-  background-color: #bf9652;
+  background-color: #BF9652;
 }
 
 .bottom-menu__nav {
@@ -727,7 +727,7 @@ h6 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(35, 31, 32, 0.75);
+  background-color: RGBA(35, 31, 32, 0.75);
   transition: background-color 0.8s ease-out;
 }
 
@@ -784,7 +784,7 @@ h6 {
   overflow: hidden;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: RGBA(0, 0, 0, 0.7);
   z-index: 50;
   text-transform: uppercase;
   text-align: center;
@@ -875,7 +875,7 @@ h6 {
 }
 
 .nav a {
-  color: #bf9652;
+  color: #BF9652;
   font-size: 4vh;
   transition: color 0.4s;
   -webkit-user-select: none;
@@ -885,7 +885,7 @@ h6 {
 }
 
 .nav a:hover {
-  color: #fff;
+  color: #FFF;
 }
 
 .nav.active {
@@ -955,15 +955,9 @@ h6 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: RGBA(0, 0, 0, 0.5);
 }
 
 /*============== libs ==============*/
 /*@import "../css/libs/owl.carousel.min";*/
 /*============== media-queries ==============*/
-
-@media screen and (min-width: 1024px) {
-  .burger {
-    display: block;
-  }
-}
