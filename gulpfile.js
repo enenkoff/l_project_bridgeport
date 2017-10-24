@@ -6,7 +6,6 @@ var gulp = require('gulp'),
     include = require('gulp-html-tag-include'),
     rigger = require('gulp-rigger'),
     sass = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
     rename = require("gulp-rename"),
     cssmin = require('gulp-cssmin'),
     uglify = require('gulp-uglify'),
@@ -16,33 +15,14 @@ var postcss = require('gulp-postcss'),
     autoprefix = require('autoprefixer'),
     stylelint = require('stylelint'),
     stylefmt = require('stylefmt'),
-    config = require('./stylelint.config'),
+    configLint = require('./stylelint.config'),
+    configFmt = require('./stylefmt.config'),
     messages = require('postcss-browser-reporter'),
     newer = require('gulp-newer');
 
-/* create svg sprite */
+/* all graph optimize */
 
-gulp.task('svgstore', function(){
-    gulp.src(['src/svg/sprite/*.svg','!app/src/**/logo.svg'])
-        .pipe(svgstore())
-        .pipe(gulp.dest('dev/assets/svg'))
-});
-
-/* minimize images */
-
-gulp.task('imagemin', function () {
-    gulp.src('src/images/**/*.+(jpg|jpeg|png)')
-        .pipe(imagemin({
-            interlaced: true,
-            progressive: true,
-            optimizationLevel: 5
-        }))
-        .pipe(gulp.dest('dev/assets/images'))
-});
-
-/* all optimize */
-
-gulp.task('optimize:all', function () {
+gulp.task('optimize:img', function () {
     gulp.src('src/images/**/*.+(jpg|jpeg|png)')
         .pipe(newer('dev/assets/images'))
         .pipe(imagemin({
@@ -55,7 +35,81 @@ gulp.task('optimize:all', function () {
     gulp.src('src/svg/**/*.svg')
         .pipe(newer('dev/assets/svg'))
         .pipe(svgmin())
-        .pipe(gulp.dest('dev/assets/svg'));
+        .pipe(gulp.dest('dev/assets/svg'))
+        .on('finish',function () {
+            gulp.src('dev/assets/svg/sprite/*.svg')
+                .pipe(svgstore())
+                .pipe(gulp.dest('dev/assets/svg'));
+        });
+
+});
+
+/* all styles optimize */
+
+gulp.task('optimize:styles', function () {
+    gulp.src('src/sass/**/*.+(sass|scss)')
+        .pipe( sass({
+                outputStyle:'expanded'
+            }).on( 'error', notify.onError(
+            {
+                message: "<%= error.message %>",
+                title  : "Sass ошибка!"
+            } ) )
+        )
+        .pipe(
+            postcss([
+                autoprefix({
+                    browsers:['>2%']
+                })
+            ])
+        )
+        .pipe( gulp.dest( 'src/css' ) )
+        .pipe( notify( 'Готово!' ) )
+        .on('finish',function () {
+            gulp.src('src/css/styles.css')
+                .pipe(
+                    postcss([
+                        stylefmt(configFmt),
+                        stylelint(configLint),
+                        messages()
+                    ])
+                )
+                .pipe(gulp.dest('dev/assets/css'))
+                .pipe(cssmin())
+                .pipe(rename({suffix: '.min'}))
+                .pipe(gulp.dest('dev/assets/css'))
+                .pipe(browserSync.reload({stream: true}));
+        });
+});
+
+/* linters */
+
+gulp.task('lint:styles', function () {
+    gulp.src('dev/assets/css/styles.css')
+        .pipe(
+            postcss([
+                // stylefmt(configFmt),
+                stylelint(configLint),
+                messages()
+            ])
+        )
+        .pipe(browserSync.reload({stream: true}));
+});
+
+/* all js optimize */
+
+gulp.task('optimize:js', function () {
+    gulp.src('src/js/libs/main.js')
+        .pipe(rigger())
+        .pipe(gulp.dest('src/js'))
+        .on('finish',function () {
+            gulp.src('src/js/main.js')
+                .pipe(gulp.dest('dev/assets/js'))
+                .pipe(uglify())
+                .pipe(rename({suffix: '.min'}))
+                .pipe(gulp.dest('dev/assets/js'))
+                .pipe(browserSync.reload({stream: true}));
+        })
 });
 
 /* builders */
@@ -66,26 +120,6 @@ gulp.task('includer:html', function () {
         .pipe(gulp.dest('dev'))
         .pipe(browserSync.reload({stream: true}));
 });
-
-gulp.task('rigger:js', function () {
-    gulp.src('src/js/libs/main.js')
-        .pipe(rigger())
-        .pipe(gulp.dest('src/js'));
-        // .pipe(browserSync.reload({stream: true}));
-});
-
-gulp.task('optimize:js', ['rigger:js'], function () {
-    setTimeout(function () {
-        gulp.src('src/js/main.js')
-            .pipe(gulp.dest('dev/assets/js'))
-            // .pipe(uglify())
-            .pipe(rename({suffix: '.min'}))
-            .pipe(gulp.dest('dev/assets/js'))
-            .pipe(browserSync.reload({stream: true}));
-    },1000)
-
-});
-
 
 /* browser sync */
 
@@ -98,74 +132,10 @@ gulp.task('browser-sync',function () {
     })
 });
 
-
-/* compile sass with notify errors */
-
-    gulp.task( 'sass', function() {
-
-        gulp.src('src/sass/**/*.+(sass|scss)')
-            .pipe( sass({
-                    outputStyle:'expanded'
-                }).on( 'error', notify.onError(
-                {
-                    message: "<%= error.message %>",
-                    title  : "Sass ошибка!"
-                } ) )
-            )
-            .pipe( gulp.dest( 'src/css' ) )
-            .pipe( notify( 'Готово!' ) )
-
-
-        gulp.src('src/css/styles.css')
-            .pipe(
-                postcss([
-                    autoprefix({
-                        browsers:['>2%']
-                    }),
-                    stylefmt(config),
-                    stylelint(config)
-                    // stylefmt(config)
-                    // messages()
-                ])
-            )
-            .pipe(gulp.dest('dev/assets/css'))
-            .pipe(cssmin())
-            .pipe(rename({suffix: '.min'}))
-            .pipe(gulp.dest('dev/assets/css'));
-    });
-
-    gulp.task('optimize:css', ['sass', 'browser-sync'], function () {
-        setTimeout(function () {
-            gulp.src('src/css/styles.css')
-                // .pipe(autoprefixer())
-                .pipe(
-                    postcss([
-                        autoprefix({
-                            browsers:['>2%']
-                        })
-                    ])
-                )
-                .pipe(
-                    postcss([
-                        // stylelint(config),
-                        // stylefmt(config)
-                        // messages()
-                    ])
-                )
-                .pipe(gulp.dest('dev/assets/css'))
-                .pipe(cssmin())
-                .pipe(rename({suffix: '.min'}))
-                .pipe(gulp.dest('dev/assets/css'))
-                .pipe(browserSync.reload({stream: true}));
-        },1000)
-
-    });
-
-
 /* watch changes */
 
-gulp.task('watch', ['optimize:css', 'includer:html', 'rigger:js', 'browser-sync'], function () {
-    gulp.watch('src/sass/**/*.+(sass|scss)',['optimize:css']);
+gulp.task('watch', ['optimize:styles', 'includer:html', 'optimize:js', 'browser-sync'], function () {
+    gulp.watch('src/sass/**/*.+(sass|scss)',['optimize:styles']);
     gulp.watch('src/**/*.html', ['includer:html']);
     gulp.watch('src/js/**/*.js', ['optimize:js']);
 });
