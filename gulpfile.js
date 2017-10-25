@@ -9,6 +9,8 @@ var gulp = require('gulp'),
     rename = require("gulp-rename"),
     cssmin = require('gulp-cssmin'),
     uglify = require('gulp-uglify'),
+    replace = require('gulp-replace'),
+    ext_replace = require('gulp-ext-replace'),
     browserSync = require('browser-sync');
 
 var postcss = require('gulp-postcss'),
@@ -42,7 +44,6 @@ gulp.task('optimize:img', function () {
                 .pipe(svgstore())
                 .pipe(gulp.dest('dev/assets/svg'));
         });
-
 });
 
 /* all styles optimize */
@@ -132,6 +133,15 @@ gulp.task('browser-sync',function () {
         port: 4000,
         notify: false
     })
+});
+
+/* build php and replace */
+
+gulp.task('build:php',function () {
+    gulp.src('dev/*.html')
+        .pipe(replace('assets', 'dev/assets'))
+        .pipe(ext_replace('.php'))
+        .pipe(gulp.dest(''))
 });
 
 /* watch changes */
