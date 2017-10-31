@@ -2,6 +2,9 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     svgmin = require('gulp-svgmin'),
     svgstore = require('gulp-svgstore'),
+    concat = require('gulp-concat'),
+    font2css = require('gulp-font2css').default,
+    cssUrlQuotes  = require('gulp-css-url-quotes'),
     imagemin = require('gulp-imagemin'),
     include = require('gulp-html-tag-include'),
     rigger = require('gulp-rigger'),
@@ -45,6 +48,15 @@ gulp.task('optimize:img', function () {
                 .pipe(gulp.dest('dev/assets/svg'));
         });
 });
+
+gulp.task('optimize:fonts', function() {
+    return gulp.src('src/fonts/**/*.{ttf,woff,eot}')
+        .pipe(gulp.dest('dev/assets/fonts'))
+        .pipe(font2css())
+        .pipe(concat('fonts.css'))
+        .pipe(cssUrlQuotes())
+        .pipe(gulp.dest('dev/fonts'))
+})
 
 /* all styles optimize */
 
